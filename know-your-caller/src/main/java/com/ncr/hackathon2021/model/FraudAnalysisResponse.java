@@ -1,4 +1,4 @@
-package com.demo.fileUpload.model;
+package com.ncr.hackathon2021.model;
 
 public class FraudAnalysisResponse {
 

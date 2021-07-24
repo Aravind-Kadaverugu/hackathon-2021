@@ -9,11 +9,11 @@
 		<version>2.5.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.demo</groupId>
-	<artifactId>fileUpload</artifactId>
+	<groupId>com.ncr.hackathon2021</groupId>
+	<artifactId>know-your-caller</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fileUpload</name>
-	<description>File Upload Demo for Spring Boot</description>
+	<name>know-your-caller</name>
+	<description>Web application to identify and block frauds over call</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

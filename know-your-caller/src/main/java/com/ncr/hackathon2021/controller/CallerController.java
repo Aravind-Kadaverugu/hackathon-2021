@@ -1,7 +1,9 @@
-package com.demo.fileUpload.controller;
+package com.ncr.hackathon2021.controller;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -17,22 +19,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.demo.fileUpload.model.FraudAnalysisResponse;
-import com.demo.fileUpload.model.LoadFile;
-import com.demo.fileUpload.model.User;
-import com.demo.fileUpload.repository.UserRepository;
-import com.demo.fileUpload.service.FileService;
+import com.ncr.hackathon2021.model.FraudAnalysisResponse;
+import com.ncr.hackathon2021.model.LoadFile;
+import com.ncr.hackathon2021.model.User;
+import com.ncr.hackathon2021.repository.UserRepository;
+import com.ncr.hackathon2021.service.FileService;
+import com.ncr.hackathon2021.service.SpeechService;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("know-your-caller")
-public class FileController {
+public class CallerController {
 
     @Autowired
     private FileService fileService;
     
     @Autowired
+    private SpeechService speechService;
+    
+    @Autowired
     private UserRepository userRepository;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(CallerController.class);
 
     @PostMapping("/create-user")
     public ResponseEntity<?> upload(@RequestParam("file")MultipartFile file,
@@ -42,10 +50,12 @@ public class FileController {
     		@RequestParam("mobileNumber")String mobileNumber) throws IOException {
     	
     	User user= new User(firstName,lastName, emailAddress, mobileNumber);
+    	LOG.info("Creating user :"+ user.toString());
     	String fileId=fileService.addFile(file);
     	user.setVoiceNoteId(fileId);
     	User savedUser=null;
     	savedUser = userRepository.save(user);
+    	LOG.debug("Created user :"+ savedUser.toString());
     	
     	if(savedUser!=null) {
     		return new ResponseEntity<>(savedUser, HttpStatus.OK);
@@ -54,11 +64,13 @@ public class FileController {
     }
     
     @PostMapping("/identify-fraud")
-    public ResponseEntity<?> identifyFraud(@RequestParam("call-recording")MultipartFile file) throws IOException {
-    	
-    	FraudAnalysisResponse response=null;
-    	
-    	return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> identifyFraud(@RequestParam("call-recording")MultipartFile file,@RequestParam("incoming-mobile-number")String mobileNumber) throws IOException {
+    	LOG.debug("Identifying fraud from caller : "+mobileNumber);
+    	FraudAnalysisResponse response=new FraudAnalysisResponse();    	
+    	String transcribeCallRecording = speechService.TranscribeCallRecording(file);
+    	LOG.debug("Voice call transcribed : "+transcribeCallRecording);
+    	response.setCallTranscript(transcribeCallRecording);
+    	return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
 

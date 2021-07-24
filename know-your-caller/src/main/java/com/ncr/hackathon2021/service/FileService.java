@@ -1,9 +1,10 @@
-package com.demo.fileUpload.service;
+package com.ncr.hackathon2021.service;
 
-import com.demo.fileUpload.model.LoadFile;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.ncr.hackathon2021.model.LoadFile;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;

@@ -1,4 +1,4 @@
-package com.demo.fileUpload.model;
+package com.ncr.hackathon2021.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
