@@ -1,4 +1,4 @@
-package com.demo.fileUpload;
+package com.ncr.hackathon2021;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

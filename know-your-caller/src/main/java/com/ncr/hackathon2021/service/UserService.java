@@ -1,4 +1,4 @@
-package com.demo.fileUpload.service;
+package com.ncr.hackathon2021.service;
 
 import org.springframework.stereotype.Service;
 
