@@ -28,6 +28,7 @@ public class FileUploadUtility {
 
         new Thread(() -> {
             try{
+
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 MediaType mediaType = MediaType.parse("text/plain");
@@ -35,6 +36,10 @@ public class FileUploadUtility {
                         .addFormDataPart("file",selectedPath,
                                 RequestBody.create(MediaType.parse("application/octet-stream"),
                                         new File(selectedPath)))
+                        .addFormDataPart("firstName","murli")
+                        .addFormDataPart("lastName","goel")
+                        .addFormDataPart("mobileNumber","8887702292")
+                        .addFormDataPart("emailAddress","murli.goel1999@gmail.com")
                         .build();
                 Request request = new Request.Builder()
                         .url("http://192.168.1.17:9081/know-your-caller/create-user")

@@ -18,12 +18,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.LogRecord;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -32,6 +41,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class MainActivity extends AppCompatActivity implements Handler.Callback{
     //Intializing all variables..
     private TextView startTV, stopTV, playTV, stopplayTV, statusTV;
+    private EditText userFirstName,userLastName,userMobileNumber,userEmailAddress;
     //creating a variable for medi recorder object class.
     private MediaRecorder mRecorder;
     // creating a variable for mediaplayer class
@@ -41,17 +51,23 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
     // constant for storing audio permission
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
     private android.os.Handler handler;
+    private Button buttonUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //initialize all variables with their layout items.
+        userFirstName = findViewById(R.id.idFirstName);
+        userLastName = findViewById(R.id.idLastName);
+        userEmailAddress = findViewById(R.id.idEmailAddress);
+        userMobileNumber = findViewById(R.id.idPhoneNumber);
         statusTV = findViewById(R.id.idTVstatus);
         startTV = findViewById(R.id.btnRecord);
         stopTV = findViewById(R.id.btnStop);
         playTV = findViewById(R.id.btnPlay);
         stopplayTV = findViewById(R.id.btnStopPlay);
+        buttonUpload = findViewById(R.id.button);
         stopTV.setBackgroundColor(getResources().getColor(R.color.gray));
         playTV.setBackgroundColor(getResources().getColor(R.color.gray));
         stopplayTV.setBackgroundColor(getResources().getColor(R.color.gray));
@@ -83,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
             public void onClick(View v) {
                 // pause play method will pause the play of audio
                 pausePlaying();
+            }
+        });
+        buttonUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userProfileUpload(handler);
             }
         });
     }
@@ -192,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
         mRecorder = null;
         File file = new File(mFileName);
         Log.d("File", String.valueOf(file));
-        FileUploadUtility.doFileUpload(mFileName, handler);
         statusTV.setText("Recording Stopped");
 
     }
@@ -216,6 +237,43 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
         return false;
     }
 
+    public void userProfileUpload(final Handler handler) {
+
+        new Thread(() -> {
+            try{
+                String firstName = userFirstName.getText().toString();
+                String lastName = userLastName.getText().toString();
+                String mobileNumber = userMobileNumber.getText().toString();
+                String emailAddress = userEmailAddress.getText().toString();
+                Log.d("User Details",firstName+lastName+mobileNumber+emailAddress);
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                MediaType mediaType = MediaType.parse("text/plain");
+
+                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file",mFileName,
+                                RequestBody.create(MediaType.parse("application/octet-stream"),
+                                        new File(mFileName)))
+                        .addFormDataPart("firstName",firstName)
+                        .addFormDataPart("lastName",lastName)
+                        .addFormDataPart("mobileNumber",mobileNumber)
+                        .addFormDataPart("emailAddress",emailAddress)
+                        .build();
+                Request request = new Request.Builder()
+                        .url("http://192.168.1.17:9081/know-your-caller/create-user")
+                        .method("POST", body)
+                        .build();
+                Response response = client.newCall(request).execute();
+                response.body();
+                Log.d("Res: ", String.valueOf(response.body()));
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+                Log.d("Exception",e.getMessage());
+            }
+        }).start();
+
+    }
     // convert mFileName a string into a file and post it to the server
 
 }
