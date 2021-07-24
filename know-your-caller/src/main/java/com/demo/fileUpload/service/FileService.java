@@ -32,7 +32,7 @@ public class FileService {
 
         //store in database which returns the objectID
         Object fileID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(), metadata);
-
+        
         //return as a string
         return fileID.toString();
     }
