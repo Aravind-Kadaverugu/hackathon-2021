@@ -47,7 +47,7 @@ public class SpeechService {
 
 	public String TranscribeCallRecording(MultipartFile callRecording) {
 		
-		String transcriptionResponse=null;
+		String transcriptionResponse="";
 		
 		try {
 			
