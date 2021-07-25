@@ -60,5 +60,11 @@ public class FileService {
 
         return loadFile;
     }
+    
+    
+    public void deleteFile(String id) throws IOException {
+    	
+    	template.delete(new Query(Criteria.where("_id").is(id)));        
+    }
 
 }

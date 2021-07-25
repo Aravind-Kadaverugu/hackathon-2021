@@ -1,11 +1,18 @@
 package com.ncr.hackathon2021.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Example;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,8 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ncr.hackathon2021.model.FraudAnalysisResponse;
+import com.ncr.hackathon2021.model.FraudCallers;
 import com.ncr.hackathon2021.model.LoadFile;
 import com.ncr.hackathon2021.model.User;
+import com.ncr.hackathon2021.repository.FraudCallersRepository;
 import com.ncr.hackathon2021.repository.UserRepository;
 import com.ncr.hackathon2021.service.FileService;
 import com.ncr.hackathon2021.service.SpeechService;
@@ -40,6 +49,9 @@ public class CallerController {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private FraudCallersRepository fraudCallersRepository;
+    
     private static final Logger LOG = LoggerFactory.getLogger(CallerController.class);
 
     @PostMapping("/create-user")
@@ -48,6 +60,8 @@ public class CallerController {
     		@RequestParam("lastName")String lastName,
     		@RequestParam("emailAddress")String emailAddress,
     		@RequestParam("mobileNumber")String mobileNumber) throws IOException {
+    	
+    	HttpStatus httpStatus=HttpStatus.BAD_REQUEST;
     	
     	User user= new User(firstName,lastName, emailAddress, mobileNumber);
     	LOG.info("Creating user :"+ user.toString());
@@ -58,21 +72,76 @@ public class CallerController {
     	LOG.debug("Created user :"+ savedUser.toString());
     	
     	if(savedUser!=null) {
-    		return new ResponseEntity<>(savedUser, HttpStatus.OK);
+    		httpStatus=HttpStatus.OK;
     	}
-    	return new ResponseEntity<>(savedUser, HttpStatus.BAD_REQUEST);
+    	return new ResponseEntity<>(savedUser, httpStatus);
+    }
+    
+    
+    private FraudCallers getFraudCaller(String callerNumber) {
+    	LOG.debug("Checking fraud database for caller : "+callerNumber+"existence.");
+    	List<String> fraudMobileNumbers = new ArrayList<String>();
+    	fraudMobileNumbers.add(callerNumber);
+    	FraudCallers caller =new FraudCallers();
+    	caller.setFraudMobileNumbers(fraudMobileNumbers);
+    	Optional<FraudCallers> response = fraudCallersRepository.findOne(Example.of(caller));
+    	if(response!=null &&
+    			!response.isEmpty()) {
+    		response.get();
+    	}
+    	return null;
+    	
     }
     
     @PostMapping("/identify-fraud")
-    public ResponseEntity<?> identifyFraud(@RequestParam("call-recording")MultipartFile file,@RequestParam("incoming-mobile-number")String mobileNumber) throws IOException {
+    public ResponseEntity<?> identifyFraud(@RequestParam("call-recording")MultipartFile file,
+    			@RequestParam("incoming-mobile-number")String mobileNumber) throws IOException {
     	LOG.debug("Identifying fraud from caller : "+mobileNumber);
-    	FraudAnalysisResponse response=new FraudAnalysisResponse();    	
-    	String transcribeCallRecording = speechService.TranscribeCallRecording(file);
-    	LOG.debug("Voice call transcribed : "+transcribeCallRecording);
-    	response.setCallTranscript(transcribeCallRecording);
-    	return new ResponseEntity<>(response, HttpStatus.OK);
+    	HttpStatus httpStatus=HttpStatus.BAD_REQUEST;
+    	FraudAnalysisResponse response=new FraudAnalysisResponse();  
+    	if(getFraudCaller(mobileNumber)!=null) {// First check with mobile number : Check for the existence of given mobile number in fraud database.
+    		LOG.info("Caller : "+mobileNumber+" exists in fraud database. Not analyzing the call recording anymore.");
+    		response.setFraud(true);
+    		response.setMessage("Looks like a fraudulent call!!");
+    		httpStatus=HttpStatus.OK;
+    	}else { //Second check with call transcription : Convert call recording into transcription and check for fraud keywords.
+    		String transcribedCallRecording = speechService.TranscribeCallRecording(file).toLowerCase();
+        	LOG.debug("Voice call transcribed : "+transcribedCallRecording);
+        	if(transcribedCallRecording.contains("pin")
+        			||transcribedCallRecording.contains("otp")
+        			||transcribedCallRecording.contains("cvv")) {
+        		response.setFraud(true);
+        		response.setMessage("Looks like a fraudulent call!!");
+        		httpStatus=HttpStatus.OK;
+        		LOG.info("Storing call recording from "+mobileNumber
+        				+" for future reference as fraud is detected till end user confirms otherwise.");
+        		String fileId=fileService.addFile(file);
+        		response.setCallRecordId(fileId);
+        	}
+        	response.setCallTranscript(transcribedCallRecording);
+    	}    	
+    	return new ResponseEntity<>(response, httpStatus);
     }
     
+    @PostMapping("/report-fraud-caller")
+    public ResponseEntity<?> reportFraudCaller(@RequestParam("record-id")String recordId,
+    		@RequestParam("isFraudCaller")boolean isFraudCaller,
+    		@RequestParam("fraud-mobile-number")String fraudMobileNumber){
+    	try {
+	    	if(!isFraudCaller) {
+	    		LOG.info("Deleting call recording with id : "+recordId +" as the end user reported no fraud.");
+				fileService.deleteFile(recordId);
+	    	}else {//Adding fraud caller contact number and sample call recording into fraud collection for future references.
+	    		List<String> mobileNumbers=new ArrayList<String>();
+	    		mobileNumbers.add(fraudMobileNumber);
+	    		FraudCallers fraudCaller=new FraudCallers(mobileNumbers,recordId);
+	    		fraudCallersRepository.save(fraudCaller);
+	    	}
+    	} catch (IOException e) {			
+			e.printStackTrace();
+		}
+    	return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/get-voice-note/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {

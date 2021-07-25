@@ -1,10 +1,23 @@
 package com.ncr.hackathon2021.model;
 
 public class FraudAnalysisResponse {
-
+	
 	public boolean isFraud;
 	public String message;
 	public String callTranscript;
+	public String callRecordId;
+	/**
+	 * @return the callRecordId
+	 */
+	public String getCallRecordId() {
+		return callRecordId;
+	}
+	/**
+	 * @param callRecordId the callRecordId to set
+	 */
+	public void setCallRecordId(String callRecordId) {
+		this.callRecordId = callRecordId;
+	}
 	/**
 	 * @return the isFraud
 	 */
@@ -41,11 +54,10 @@ public class FraudAnalysisResponse {
 	public void setCallTranscript(String callTranscript) {
 		this.callTranscript = callTranscript;
 	}
+	
 	@Override
 	public String toString() {
-		return "FraudAnalysisResponse [isFraud=" + isFraud + ", message=" + message + ", callTranscript="
-				+ callTranscript + "]";
+		return "FraudAnalysisResponse [isFraud=" + isFraud + ", message=" + message + ", callRecordId=" + callRecordId + "]";
 	}
-	
 	
 }
