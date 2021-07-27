@@ -6,9 +6,6 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-
-
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -28,7 +25,6 @@ import com.example.vs00481543.phonecallrecorder.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.LogRecord;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -60,11 +56,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //initialize all variables with their layout items.
-        userFirstName = findViewById(R.id.idFirstName);
-        userLastName = findViewById(R.id.idLastName);
-        userEmailAddress = findViewById(R.id.idEmailAddress);
-        userMobileNumber = findViewById(R.id.idPhoneNumber);
+        //initialize all variables with their layout items
         statusTV = findViewById(R.id.idTVstatus);
         startTV = findViewById(R.id.btnRecord);
         stopTV = findViewById(R.id.btnStop);
@@ -247,10 +239,10 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
 
         new Thread(() -> {
             try{
-                String firstName = userFirstName.getText().toString();
-                String lastName = userLastName.getText().toString();
-                String mobileNumber = userMobileNumber.getText().toString();
-                String emailAddress = userEmailAddress.getText().toString();
+                String firstName = getIntent().getExtras().getString("name");
+                String lastName = getIntent().getExtras().getString("name");
+                String mobileNumber = getIntent().getExtras().getString("mobile");
+                String emailAddress = getIntent().getExtras().getString("Email");
                 Log.d("User Details",firstName+lastName+mobileNumber+emailAddress);
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .connectTimeout(15, TimeUnit.SECONDS)
@@ -269,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
                         .addFormDataPart("emailAddress",emailAddress)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://192.168.0.101:9084/know-your-caller/create-user")
+                        .url("http://192.168.0.7:9084/know-your-caller/create-user")
                         .method("POST", body)
                         .build();
                 Response response = client.newCall(request).execute();

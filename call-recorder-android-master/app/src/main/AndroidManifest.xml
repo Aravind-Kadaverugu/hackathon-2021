@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.STORAGE"/>
+    <uses-permission android:name="android.permission.STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,15 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.aravindchowdary.callrecorder.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name="com.aravindchowdary.callrecorder.RegisterActivity"></activity>
+        <activity android:name="com.aravindchowdary.callrecorder.LoginActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-        <activity android:name="com.aravindchowdary.callrecorder.SecondaryActivity">
+        <activity android:name="com.aravindchowdary.callrecorder.MainActivity">
         </activity>
+        <activity android:name="com.aravindchowdary.callrecorder.SecondaryActivity" />
 
         <receiver android:name="com.aravindchowdary.callrecorder.PhoneStateReceiver">
             <intent-filter>
