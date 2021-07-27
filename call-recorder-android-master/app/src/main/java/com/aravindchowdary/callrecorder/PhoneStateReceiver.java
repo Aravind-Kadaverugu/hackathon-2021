@@ -70,13 +70,14 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                             context.startService(reivToServ);
 
 
-                            int serialNumber = pref.getInt("serialNumData", 1);
+                            //int serialNumber = pref.getInt("serialNumData", 1);
+                            int serialNumber = 123456789;
                             new DatabaseManager(context).addCallDetails(new CallDetails(serialNumber, phoneNumber, new CommonMethods().getTIme(), new CommonMethods().getDate()));
 
                             List<CallDetails> list = new DatabaseManager(context).getAllDetails();
                             for (CallDetails cd : list) {
                                 String log = "Serial Number : " + cd.getSerial() + " | Phone num : " + cd.getNum() + " | Time : " + cd.getTime1() + " | Date : " + cd.getDate1();
-                                Log.d("Database ", log);
+                                Log.i("Database ", log);
                             }
 
 
@@ -88,16 +89,13 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                         int k = pref.getInt("numOfCalls", 1);
                         pref.edit().putInt("numOfCalls", --k).apply();
                         int l = pref.getInt("numOfCalls", 0);
-                        Log.d(TAG1, " Inside " + state);
+                        Log.i(TAG1, " Inside " + state);
                         recordStarted = pref.getBoolean("recordStarted", false);
                         Log.d(TAG1, " recordStarted in idle :" + recordStarted);
                         if (recordStarted && l == 0) {
-                            Log.d(TAG1, " Inside to stop recorder " + state);
+                            Log.i(TAG1, " Inside to stop recorder " + state);
 
                             context.stopService(new Intent(context, RecorderService.class));
-                            //SendCallRecordingActivity
-                            Response res = new SendCallRecordingActivity().doInBackground();
-
                             pref.edit().putBoolean("recordStarted", false).apply();
                         }
 

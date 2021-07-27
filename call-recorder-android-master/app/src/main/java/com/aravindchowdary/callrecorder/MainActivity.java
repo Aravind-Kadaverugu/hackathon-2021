@@ -27,6 +27,7 @@ import com.example.vs00481543.phonecallrecorder.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.LogRecord;
 
 import okhttp3.MediaType;
@@ -209,11 +210,14 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
         startTV.setBackgroundColor(getResources().getColor(R.color.purple_200));
         playTV.setBackgroundColor(getResources().getColor(R.color.purple_200));
         stopplayTV.setBackgroundColor(getResources().getColor(R.color.purple_200));
-        //below method will stop the audio recording.
-        mRecorder.stop();
-        //below method will release the media recorder class.
-        mRecorder.release();
-        mRecorder = null;
+
+        if(mRecorder!=null) {
+            //below method will stop the audio recording.
+            mRecorder.stop();
+            //below method will release the media recorder class.
+            mRecorder.release();
+            mRecorder = null;
+        }
         File file = new File(mFileName);
         Log.d("File", String.valueOf(file));
         statusTV.setText("Recording Stopped");
@@ -249,6 +253,9 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
                 String emailAddress = userEmailAddress.getText().toString();
                 Log.d("User Details",firstName+lastName+mobileNumber+emailAddress);
                 OkHttpClient client = new OkHttpClient().newBuilder()
+                        .connectTimeout(15, TimeUnit.SECONDS)
+                        .writeTimeout(15, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
                         .build();
                 MediaType mediaType = MediaType.parse("text/plain");
 
@@ -262,12 +269,11 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
                         .addFormDataPart("emailAddress",emailAddress)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://192.168.0.7:9081/know-your-caller/create-user")
+                        .url("http://192.168.0.101:9084/know-your-caller/create-user")
                         .method("POST", body)
                         .build();
                 Response response = client.newCall(request).execute();
-                response.body();
-                Log.d("Res: ", String.valueOf(response.body()));
+                Log.d("Create User Profile :", String.valueOf(response.body()));
                 Intent i = new Intent(this, SecondaryActivity.class);
                 startActivity(i);
 

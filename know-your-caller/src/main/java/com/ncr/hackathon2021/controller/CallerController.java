@@ -10,9 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Example;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -97,13 +94,11 @@ public class CallerController {
     public ResponseEntity<?> identifyFraud(@RequestParam("call-recording")MultipartFile file,
     			@RequestParam("incoming-mobile-number")String mobileNumber) throws IOException {
     	LOG.debug("Identifying fraud from caller : "+mobileNumber);
-    	HttpStatus httpStatus=HttpStatus.BAD_REQUEST;
     	FraudAnalysisResponse response=new FraudAnalysisResponse();  
     	if(getFraudCaller(mobileNumber)!=null) {// First check with mobile number : Check for the existence of given mobile number in fraud database.
     		LOG.info("Caller : "+mobileNumber+" exists in fraud database. Not analyzing the call recording anymore.");
     		response.setFraud(true);
     		response.setMessage("Looks like a fraudulent call!!");
-    		httpStatus=HttpStatus.OK;
     	}else { //Second check with call transcription : Convert call recording into transcription and check for fraud keywords.
     		String transcribedCallRecording = speechService.TranscribeCallRecording(file).toLowerCase();
         	LOG.debug("Voice call transcribed : "+transcribedCallRecording);
@@ -111,8 +106,7 @@ public class CallerController {
         			||transcribedCallRecording.contains("otp")
         			||transcribedCallRecording.contains("cvv")) {
         		response.setFraud(true);
-        		response.setMessage("Looks like a fraudulent call!!");
-        		httpStatus=HttpStatus.OK;
+        		response.setMessage("Looks like a fraudulent call!!");        		
         		LOG.info("Storing call recording from "+mobileNumber
         				+" for future reference as fraud is detected till end user confirms otherwise.");
         		String fileId=fileService.addFile(file);
@@ -120,7 +114,7 @@ public class CallerController {
         	}
         	response.setCallTranscript(transcribedCallRecording);
     	}    	
-    	return new ResponseEntity<>(response, httpStatus);
+    	return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping("/report-fraud-caller")

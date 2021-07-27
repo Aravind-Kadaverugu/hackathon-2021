@@ -7,4 +7,5 @@ import com.ncr.hackathon2021.model.FraudCallers;
 
 public interface FraudCallersRepository extends MongoRepository<FraudCallers, String> {
 	FraudCallers findBy_id(ObjectId _id);
+	
 }

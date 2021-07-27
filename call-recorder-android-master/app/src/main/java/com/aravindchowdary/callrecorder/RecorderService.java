@@ -7,8 +7,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -17,6 +20,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+
 /**
  * Created by Aravind Chowdary on 01-07-2019.
  */
@@ -24,8 +28,9 @@ import okhttp3.Response;
 public class RecorderService extends Service {
 
     MediaRecorder recorder;
-    static final String TAGS=" Inside Service";
+    static final String TAGS=" Recorder Service";
     public  static  String rec = null;
+    public static String phoneNumber= null;
 
     @Nullable
     @Override
@@ -38,20 +43,16 @@ public class RecorderService extends Service {
         recorder = new MediaRecorder();
         recorder.reset();
 
-        String phoneNumber=intent.getStringExtra("number");
-        Log.d(TAGS, "Phone number in service: "+phoneNumber);
+        phoneNumber=intent.getStringExtra("number");
+        Log.i(TAGS, "Phone number in service: "+phoneNumber);
 
         String time=new CommonMethods().getTIme();
-
-        //String path=new CommonMethods().getPath();
-
-        String mFileName = getExternalFilesDir("/").getAbsolutePath();
-
-        rec=mFileName+"/"+phoneNumber+"_"+time+".3gp";
+        String path=new CommonMethods().getPath();
+        rec=path+"/"+phoneNumber+"_"+time+".amr";
 
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         recorder.setOutputFile(rec);
 
@@ -62,7 +63,7 @@ public class RecorderService extends Service {
         }
         recorder.start();
 
-        Log.d(TAGS, "onStartCommand: "+"Recording started");
+        Log.i(TAGS, "onStartCommand: "+"Recording started");
 
         return START_NOT_STICKY;
     }
@@ -75,6 +76,44 @@ public class RecorderService extends Service {
         recorder.release();
         recorder=null;
 
-        Log.d(TAGS, "onDestroy: "+"Recording stopped");
+        Log.i(TAGS, "onDestroy: "+"Recording stopped");
+
+        new Thread(() -> {
+            try {
+
+                Log.i(TAGS, "onDestroy: "+"Recording being sent to server.");
+                // determine whether the file is in use by another thread
+                    Thread.sleep(3000);
+                    // Perform upload audio operation
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .connectTimeout(45, TimeUnit.SECONDS)
+                            .writeTimeout(45, TimeUnit.SECONDS)
+                            .readTimeout(60, TimeUnit.SECONDS)
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("call-recording", rec,
+                                    RequestBody.create(MediaType.parse("application/octet-stream"),
+                                            new File(rec)))
+                            .addFormDataPart("incoming-mobile-number", phoneNumber)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://192.168.0.101:9084/know-your-caller/identify-fraud")
+                            .method("POST", body)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    if(response!=null && response.body()!=null) {
+                        Log.i(TAGS, "Response from server :" + response.body().string());
+                        JSONObject Jobject = new JSONObject(response.body().string());
+                        String callTranscript = Jobject.getString("callTranscript");
+                        Boolean isFraud = Jobject.getBoolean("isFraud");
+                        Log.i(TAGS, "Call transcript :" + callTranscript + " . Call status :" + isFraud);
+                    }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
