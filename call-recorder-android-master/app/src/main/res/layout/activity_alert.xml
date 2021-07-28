@@ -30,7 +30,7 @@
                     android:layout_alignParentLeft="true"
                     android:textColor="@color/whiteTextColor"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="7dp"
                     android:text="Know UR\nCaller" />
 
                 <ImageView
