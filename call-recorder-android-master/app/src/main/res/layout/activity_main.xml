@@ -176,4 +176,12 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
+    <View
+        android:layout_width="11dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_side_bg"/>
+
 </RelativeLayout>
