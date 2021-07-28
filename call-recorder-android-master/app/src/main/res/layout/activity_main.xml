@@ -1,157 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="com.aravindchowdary.callrecorder.MainActivity">
-
-<!--Heading Text View-->
-<TextView
-    android:id="@+id/txthead"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:text="@string/audio_recorder"
-    android:textAlignment="center"
-    android:textColor="@color/black"
-    android:textSize="30sp" />
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context="com.aravindchowdary.callrecorder.MainActivity">
 
-<!--This will display the status of our app when
-    we will record some audio and play that audio-->
-
-<!--Linear Layout for adding textviews
-    in horizontal manner-->
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/idFirstName"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="150dp"
-        android:inputType="textPersonName"
-        android:hint="First Name" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:padding="20dp">
 
-    <EditText
-        android:id="@+id/idLastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Last Name" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-    <EditText
-        android:id="@+id/idEmailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="Email"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/idPhoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint="Mobile Number"/>
+                <TextView
+                    style="@style/viewParent.headerText.NoMode"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="25sp"
+                    android:text="Know UR\n Caller"
+                    android:textColor="@color/whiteTextColor" />
 
-    <TextView
-        android:id="@+id/idTVstatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/status"
-        android:textSize="18sp" />
-</LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_iconvoice_img" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/button"
-    android:layout_marginTop="163dp"
-    android:layout_marginBottom="29dp"
-    android:orientation="horizontal"
-    android:weightSum="4">
+            </RelativeLayout>
 
-    <!--Textview to start audio recording
-        drawableTop will add above mic image-->
-    <TextView
-        android:id="@+id/btnRecord"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
-        android:background="@color/purple_500"
-        android:padding="5dp"
-        android:text="@string/start_recording"
-        android:textAlignment="center"
-        android:textColor="@color/white" />
+            <android.support.v7.widget.CardView
+                android:layout_width="417dp"
+                android:layout_height="579dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/whiteTextColor"
+                app:cardCornerRadius="10dp">
 
-    <!--Textview to stop audio recording
-        drawableTop will add above mic image-->
-    <TextView
-        android:id="@+id/btnStop"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
-        android:background="@color/purple_500"
-        android:padding="5dp"
-        android:text="@string/stop_recording"
-        android:textAlignment="center"
-        android:textColor="@color/white"/>
+                <LinearLayout
+                    android:layout_width="330dp"
+                    android:layout_height="480dp"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
 
-    <!--Textview to play audio that is recorded
-        drawableTop will add above mic image-->
-    <TextView
-        android:id="@+id/btnPlay"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
-        android:background="@color/purple_500"
-        android:padding="5dp"
-        android:text="@string/play_recording"
-        android:textAlignment="center"
-        android:textColor="@color/white" />
+                    <LinearLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/loginViewsMargin">
 
-    <!--Textview to pause the play of audio recording
-        drawableTop will add above mic image-->
-    <TextView
-        android:id="@+id/btnStopPlay"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
-        android:background="@color/purple_500"
-        android:lines="2"
-        android:padding="5dp"
-        android:text="@string/stop_playing"
-        android:textAlignment="center"
-        android:textColor="@color/white" />
+                        <TextView
+                            android:id="@+id/txthead"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/audio_recorder"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
 
-</LinearLayout>
+                    </LinearLayout>
 
-<Button
-    android:id="@+id/button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginStart="161dp"
-    android:layout_marginLeft="161dp"
-    android:layout_marginEnd="156dp"
-    android:layout_marginRight="156dp"
-    android:layout_marginBottom="107dp"
-    android:text="Submit" />
+                    <LinearLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/loginViewsMargin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btnRecord"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/button_background_blue"
+                            android:padding="5dp"
+                            android:text="@string/start_recording"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/loginViewsMargin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btnStop"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/button_background_blue"
+                            android:padding="5dp"
+                            android:text="@string/stop_recording"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/loginViewsMargin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btnPlay"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/button_background_blue"
+                            android:padding="5dp"
+                            android:text="@string/play_recording"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/loginViewsMargin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btnStopPlay"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/button_background_blue"
+                            android:padding="5dp"
+                            android:text="@string/stop_playing"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/idTVstatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/status"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="30sp" />
+
+
+                    <Button
+                        android:id="@+id/button"
+                        style="@style/loginButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button_background_blue"
+                        android:textColor="@color/black"
+                        android:text="Register" />
+
+                    <LinearLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/loginViewsMargin">
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+    <View
+        android:layout_width="11dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_side_bg"/>
 
 </RelativeLayout>

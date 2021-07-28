@@ -6,15 +6,13 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-
-
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +26,6 @@ import com.example.vs00481543.phonecallrecorder.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.LogRecord;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,6 +34,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.Manifest.permission.ACCESS_NOTIFICATION_POLICY;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -59,12 +57,10 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         setContentView(R.layout.activity_main);
-        //initialize all variables with their layout items.
-        userFirstName = findViewById(R.id.idFirstName);
-        userLastName = findViewById(R.id.idLastName);
-        userEmailAddress = findViewById(R.id.idEmailAddress);
-        userMobileNumber = findViewById(R.id.idPhoneNumber);
+        //initialize all variables with their layout items
         statusTV = findViewById(R.id.idTVstatus);
         startTV = findViewById(R.id.btnRecord);
         stopTV = findViewById(R.id.btnStop);
@@ -171,12 +167,13 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
         //this method is used to check permission
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
-        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_NOTIFICATION_POLICY);
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED&& result2 == PackageManager.PERMISSION_GRANTED;
     }
 
     private void RequestPermissions() {
         // this method is used to request the permission for audio recording and storage.
-        ActivityCompat.requestPermissions(MainActivity.this, new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE}, REQUEST_AUDIO_PERMISSION_CODE);
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE,ACCESS_NOTIFICATION_POLICY}, REQUEST_AUDIO_PERMISSION_CODE);
     }
 
 
@@ -247,10 +244,10 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
 
         new Thread(() -> {
             try{
-                String firstName = userFirstName.getText().toString();
-                String lastName = userLastName.getText().toString();
-                String mobileNumber = userMobileNumber.getText().toString();
-                String emailAddress = userEmailAddress.getText().toString();
+                String firstName = getIntent().getExtras().getString("name");
+                String lastName = getIntent().getExtras().getString("name");
+                String mobileNumber = getIntent().getExtras().getString("mobile");
+                String emailAddress = getIntent().getExtras().getString("Email");
                 Log.d("User Details",firstName+lastName+mobileNumber+emailAddress);
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .connectTimeout(15, TimeUnit.SECONDS)
@@ -269,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
                         .addFormDataPart("emailAddress",emailAddress)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://192.168.0.101:9084/know-your-caller/create-user")
+                        .url("http://192.168.0.102:9085/know-your-caller/create-user")
                         .method("POST", body)
                         .build();
                 Response response = client.newCall(request).execute();
