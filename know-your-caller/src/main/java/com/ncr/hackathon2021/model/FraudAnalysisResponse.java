@@ -6,6 +6,8 @@ public class FraudAnalysisResponse {
 	public String message;
 	public String callTranscript;
 	public String callRecordId;
+	public String mobileNumber;
+	
 	/**
 	 * @return the callRecordId
 	 */
@@ -54,10 +56,23 @@ public class FraudAnalysisResponse {
 	public void setCallTranscript(String callTranscript) {
 		this.callTranscript = callTranscript;
 	}
-	
+	/**
+	 * @return the mobileNumber
+	 */
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+	/**
+	 * @param mobileNumber the mobileNumber to set
+	 */
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
 	@Override
 	public String toString() {
-		return "FraudAnalysisResponse [isFraud=" + isFraud + ", message=" + message + ", callRecordId=" + callRecordId + "]";
+		return "FraudAnalysisResponse [isFraud=" + isFraud + ", message=" + message + ", callTranscript="
+				+ callTranscript + ", callRecordId=" + callRecordId + ", mobileNumber=" + mobileNumber + "]";
 	}
+	
 	
 }

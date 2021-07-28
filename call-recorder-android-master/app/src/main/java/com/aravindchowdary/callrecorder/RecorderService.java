@@ -111,14 +111,14 @@ public class RecorderService extends Service {
                         .addFormDataPart("incoming-mobile-number", phoneNumber)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://192.168.0.101:9084/know-your-caller/identify-fraud")
+                        .url("http://192.168.0.102:9085/know-your-caller/identify-fraud")
                         .method("POST", body)
                         .build();
                 Response response = client.newCall(request).execute();
                 String responseString=response.body().string();
                 if (responseString != null&& responseString.contains("true")) {
                     Log.i(TAGS, "Response from server :" + responseString);
-                    createNotification(responseString);
+                    createNotification(responseString,phoneNumber);
                     //sendDataToActivity(response.body().string());
                 }
 
@@ -128,21 +128,13 @@ public class RecorderService extends Service {
             }
         }).start();
     }
-    private void sendDataToActivity(String serviceResponse)
-    {
-        Intent serviceResponseBroadcaster = new Intent();
-        serviceResponseBroadcaster.setClass(this,AlertActivity.class);
-        serviceResponseBroadcaster.setAction("FRAUD_IDENTIFICATION");
-        serviceResponseBroadcaster.putExtra( "SERVICE_RESPONSE",serviceResponse);
-        sendBroadcast(serviceResponseBroadcaster);
-    }
 
-    private void createNotification(String serviceResponse) {
+    private void createNotification(String serviceResponse,String mobileNumber) {
 
         // Construct pending intent to serve as action for notification item
         Intent intent = new Intent(this, AlertActivity.class);
         intent.setAction("FRAUD_IDENTIFICATION");
-        intent.putExtra( "SERVICE_RESPONSE","Looks like a spammer !!");
+        intent.putExtra( "SERVICE_RESPONSE",serviceResponse);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         // Create notification
@@ -191,5 +183,14 @@ public class RecorderService extends Service {
                 Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         mNotificationManager.notify(NOTIF_ID, notification);
+    }
+
+    private void sendDataToActivity(String serviceResponse)
+    {
+        Intent serviceResponseBroadcaster = new Intent();
+        serviceResponseBroadcaster.setClass(this,AlertActivity.class);
+        serviceResponseBroadcaster.setAction("FRAUD_IDENTIFICATION");
+        serviceResponseBroadcaster.putExtra( "SERVICE_RESPONSE",serviceResponse);
+        sendBroadcast(serviceResponseBroadcaster);
     }
 }
