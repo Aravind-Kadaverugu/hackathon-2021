@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/register_bk_color"
+    android:background="@color/black"
     tools:context="com.aravindchowdary.callrecorder.RegisterActivity">
 
     <ScrollView
@@ -28,6 +28,7 @@
                     style="@style/viewParent.headerText.NoMode"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="20dp"
+                    android:textColor="@color/white"
                     android:text="Here's\nyour first\nstep with\nus!" />
 
                 <ImageView
@@ -36,15 +37,15 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="0dp"
-                    android:layout_marginRight="2dp"
-                    android:src="@drawable/ic_login_hero" />
+                    android:layout_marginRight="19dp"
+                    android:src="@drawable/ic_ncr_img" />
 
             </RelativeLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="372dp"
                 android:layout_height="357dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="60dp"
                 app:cardBackgroundColor="@color/whiteTextColor"
                 app:cardCornerRadius="10dp">
 
@@ -114,7 +115,7 @@
                         android:id="@+id/cirRegisterButton"
                         style="@style/loginButton"
                         android:onClick="onLoginClick"
-                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/loginViewsMargin"
                         android:text="Next" />
 

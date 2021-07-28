@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context="com.aravindchowdary.callrecorder.LoginActivity">
 
     <ScrollView
@@ -27,6 +28,7 @@
                 <TextView
                     style="@style/viewParent.headerText.NoMode"
                     android:layout_alignParentLeft="true"
+                    android:textColor="@color/whiteTextColor"
                     android:layout_centerVertical="true"
                     android:text="KnowUR\nCaller" />
 
@@ -37,45 +39,52 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="4dp"
                     android:layout_marginRight="0dp"
-                    android:src="@drawable/ic_register_hero" />
+                    android:src="@drawable/ic_voice_image" />
 
             </RelativeLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="350dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/whiteTextColor"
+                app:cardCornerRadius="10dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/textInputEmail"
+                android:background="@color/white"
                 style="@style/parent"
+                android:orientation="vertical"
                 android:layout_marginTop="@dimen/loginViewsMargin">
 
                 <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/editTextEmail"
-                    style="@style/modifiedEditText"
+                    android:textColor="@color/white"
                     android:hint="@string/login_email_hint"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"/>
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/textInputPassword"
-                style="@style/parent"
-                android:layout_marginTop="@dimen/loginViewsMargin">
-
                 <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/editTextPassword"
-                    style="@style/modifiedEditText"
+                    android:textColor="@color/white"
                     android:hint="@string/login_password_hint"
                     android:inputType="textPassword"
                     android:maxLines="1"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <TextView
-                style="@style/viewParent"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:text="Forgot Password"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="@dimen/newsMoreTextSize"/>
+            </android.support.v7.widget.CardView>
+
+<!--            <TextView-->
+<!--                style="@style/viewParent"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:text="Forgot Password"-->
+<!--                android:textColor="@color/whiteTextColor"-->
+<!--                android:textSize="@dimen/newsMoreTextSize"/>-->
             <Button
                 android:id="@+id/cirLoginButton"
                 style="@style/loginButton"
@@ -113,7 +122,7 @@
                     android:text="Use other Methods"
                     android:textSize="20dp"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:textColor="@color/white"/>
 
 
                 <View

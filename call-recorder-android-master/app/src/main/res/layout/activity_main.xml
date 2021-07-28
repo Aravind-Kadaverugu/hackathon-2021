@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/black"
     tools:context="com.aravindchowdary.callrecorder.MainActivity">
 
     <ScrollView
@@ -29,13 +29,13 @@
                     style="@style/viewParent.headerText.NoMode"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="0dp"
-                    android:textSize="40sp"
+                    android:textSize="25sp"
                     android:text="Know UR\n Caller"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/whiteTextColor" />
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="0dp"
@@ -52,8 +52,8 @@
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
-                    android:layout_width="389dp"
-                    android:layout_height="550dp"
+                    android:layout_width="330dp"
+                    android:layout_height="480dp"
                     android:layout_margin="10dp"
                     android:orientation="vertical">
 
@@ -78,14 +78,14 @@
 
                         <TextView
                             android:id="@+id/btnRecord"
-                            android:layout_width="match_parent"
+                            android:layout_width="318dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@color/purple_500"
-                            android:textAlignment="center"
                             android:padding="5dp"
                             android:text="@string/start_recording"
+                            android:textAlignment="center"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -119,9 +119,9 @@
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@color/purple_500"
-                            android:textAlignment="center"
                             android:padding="5dp"
                             android:text="@string/play_recording"
+                            android:textAlignment="center"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -136,10 +136,10 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:textAlignment="center"
                             android:background="@color/purple_500"
                             android:padding="5dp"
                             android:text="@string/stop_playing"
+                            android:textAlignment="center"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -149,20 +149,21 @@
                         android:id="@+id/idTVstatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="20dp"
                         android:text="@string/status"
                         android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
                         android:textSize="30sp" />
 
 
-                        <Button
-                            android:id="@+id/button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/loginButton"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="60dp"
-                            android:text="Register" />
+                    <Button
+                        android:id="@+id/button"
+                        style="@style/loginButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:text="Register" />
 
                     <LinearLayout
                         style="@style/parent"
