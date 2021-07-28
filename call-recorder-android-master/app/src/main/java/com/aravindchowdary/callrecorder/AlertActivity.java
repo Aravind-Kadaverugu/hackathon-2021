@@ -2,6 +2,7 @@ package com.aravindchowdary.callrecorder;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +35,8 @@ public class AlertActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         receiver = new FruadIdentificationReceiver();
         //registerReceiver(receiver, new IntentFilter("SERVICE_RESPONSE"));
         registerReceiver(receiver, new IntentFilter("FRAUD_IDENTIFICATION"));
