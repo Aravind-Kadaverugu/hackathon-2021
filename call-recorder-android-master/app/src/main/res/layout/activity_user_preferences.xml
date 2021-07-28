@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context="com.aravindchowdary.callrecorder.LoginActivity">
+    tools:context="com.aravindchowdary.callrecorder.UserPreferencesActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,8 +39,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="4dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="0dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/ic_iconvoice_img" />
 
             </RelativeLayout>
@@ -51,63 +51,63 @@
                 app:cardBackgroundColor="@color/whiteTextColor"
                 app:cardCornerRadius="10dp">
 
-            <LinearLayout
-                android:id="@+id/textInputEmail"
-                android:background="@color/white"
-                style="@style/parent"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/loginViewsMargin">
+                <LinearLayout
+                    android:id="@+id/textInputEmail"
+                    android:background="@color/white"
+                    style="@style/parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/loginViewsMargin">
 
-                <EditText
-                    android:layout_width="320dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/editTextEmail"
-                    android:textColor="@color/black"
-                    android:hint="@string/login_email_hint"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"/>
+                    <EditText
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/editTextEmail"
+                        android:textColor="@color/black"
+                        android:hint="@string/governance_email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"/>
 
-                <EditText
-                    android:layout_width="320dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/editTextPassword"
-                    android:textColor="@color/black"
-                    android:hint="@string/login_password_hint"
-                    android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    <EditText
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/editPhoneNumber"
+                        android:textColor="@color/black"
+                        android:hint="@string/governance_phonenumber"
+                        android:inputType="phone"
+                        android:maxLines="1"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
-<!--            <TextView-->
-<!--                style="@style/viewParent"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:text="Forgot Password"-->
-<!--                android:textColor="@color/whiteTextColor"-->
-<!--                android:textSize="@dimen/newsMoreTextSize"/>-->
+            <!--            <TextView-->
+            <!--                style="@style/viewParent"-->
+            <!--                android:layout_gravity="end"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:text="Forgot Password"-->
+            <!--                android:textColor="@color/whiteTextColor"-->
+            <!--                android:textSize="@dimen/newsMoreTextSize"/>-->
             <Button
-                android:id="@+id/cirLoginButton"
+                android:id="@+id/nextButton"
                 style="@style/loginButton"
-                android:onClick="onLoginClick"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/button_background_blue"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/loginViewsMargin"
-                android:text="Login"/>
+                android:text="Next"/>
 
-            <TextView
-                style="@style/parent"
-                android:layout_marginTop="@dimen/loginViewsMargin"
-                android:onClick="onRegisterClick"
-                android:text="New User? Register Now"
-                android:textAlignment="center"
-                android:textColor="@color/whiteTextColor"
-                android:textSize="22dp"
+            <Button
+                android:id="@+id/skipButton"
+                style="@style/loginButton"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_background_blue"
                 android:textStyle="bold"
-                android:gravity="center_horizontal" />
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text="Skip"/>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,14 +121,6 @@
                     android:layout_height="1dp"
                     android:layout_weight="3"
                     android:background="@color/colorPrimaryDark"/>
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Use other Methods"-->
-<!--                    android:textSize="20dp"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:textColor="@color/whiteTextColor"/>-->
-
 
                 <View
                     android:layout_width="0dp"
@@ -170,7 +162,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="11dp"
         android:layout_marginBottom="30dp"
-        android:onClick="onRegisterClick"
         android:src="@drawable/ic_add_img"/>
 
 </RelativeLayout>

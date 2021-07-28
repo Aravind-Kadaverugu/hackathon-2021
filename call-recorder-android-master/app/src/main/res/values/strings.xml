@@ -12,4 +12,6 @@
     <string name="login_email_hint">Email</string>
     <string name="spam_text">Looks like spam!!</string>
     <string name="login_password_hint">Password</string>
+    <string name="governance_phonenumber">Governance phone number</string>
+    <string name="governance_email">Governance email address</string>
 </resources>

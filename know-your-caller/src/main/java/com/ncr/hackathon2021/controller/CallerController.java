@@ -76,7 +76,7 @@ public class CallerController {
     
     
     private FraudCallers getFraudCaller(String callerNumber) {
-    	LOG.debug("Checking fraud database for caller : "+callerNumber+"existence.");
+    	LOG.debug("Checking fraud database for caller : "+callerNumber+" existence.");
     	List<String> fraudMobileNumbers = new ArrayList<String>();
     	fraudMobileNumbers.add(callerNumber);
     	FraudCallers caller =new FraudCallers();
@@ -84,7 +84,8 @@ public class CallerController {
     	Optional<FraudCallers> response = fraudCallersRepository.findOne(Example.of(caller));
     	if(response!=null &&
     			!response.isEmpty()) {
-    		response.get();
+    		LOG.debug("Caller with number : "+callerNumber+" found in fraud database !!");
+    		return response.get();
     	}
     	return null;
     	
@@ -98,7 +99,7 @@ public class CallerController {
     	if(getFraudCaller(mobileNumber)!=null) {// First check with mobile number : Check for the existence of given mobile number in fraud database.
     		LOG.info("Caller : "+mobileNumber+" exists in fraud database. Not analyzing the call recording anymore.");
     		response.setFraud(true);
-    		response.setMessage("Looks like a fraudulent call!!");
+    		response.setMessage("Fraudulent call detected !!");
     	}else { //Second check with call transcription : Convert call recording into transcription and check for fraud keywords.
     		String transcribedCallRecording = speechService.TranscribeCallRecording(file).toLowerCase();
         	LOG.debug("Voice call transcribed : "+transcribedCallRecording);
@@ -109,7 +110,7 @@ public class CallerController {
         			||transcribedCallRecording.contains("word")
         			||transcribedCallRecording.contains("code")) {
         		response.setFraud(true);
-        		response.setMessage("Looks like a fraudulent call!!");        		
+        		response.setMessage("Fraudulent call Alert !!");        		
         		LOG.info("Storing call recording from "+mobileNumber
         				+" for future reference as fraud is detected till end user confirms otherwise.");
         		String fileId=fileService.addFile(file);
@@ -125,11 +126,14 @@ public class CallerController {
     		@RequestParam("isFraudCaller")boolean isFraudCaller,
     		@RequestParam("fraud-mobile-number")String fraudMobileNumber){
     	try {
-	    	if(!isFraudCaller) {
+    		if(!isFraudCaller) {
 	    		LOG.info("Deleting call recording with id : "+recordId +" as the end user reported no fraud.");
 				fileService.deleteFile(recordId);
 	    	}else {//Adding fraud caller contact number and sample call recording into fraud collection for future references.
 	    		List<String> mobileNumbers=new ArrayList<String>();
+	    		if(!fraudMobileNumber.contains("+91")) {
+	    			fraudMobileNumber="+91"+fraudMobileNumber;
+	    		}
 	    		mobileNumbers.add(fraudMobileNumber);
 	    		FraudCallers fraudCaller=new FraudCallers(mobileNumbers,recordId);
 	    		fraudCallersRepository.save(fraudCaller);

@@ -20,7 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
     public void onRegisterClick(View view)
     {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, UserPreferencesActivity.class);
         EditText name = (EditText)findViewById(R.id.editTextName);
         intent.putExtra("name", name.getText().toString());
         EditText mobile = (EditText)findViewById(R.id.editTextMobile);
