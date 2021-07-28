@@ -60,11 +60,12 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/serviceResponse"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:hint="@string/spam_text"
+                        android:layout_weight="1"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"/>
 <LinearLayout
@@ -81,7 +82,7 @@
                         style="@style/loginButton"
                         android:background="#E71B1B"
                         android:onClick="onReportSpamClick"
-                        android:text="Report Spam"
+                        android:text="Report Fraud"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -92,7 +93,7 @@
                         android:background="#1BE72C"
                         style="@style/loginButton"
                         android:onClick="onNoSpamClick"
-                        android:text="Not Spam"
+                        android:text="Not Fraud"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 </LinearLayout>

@@ -99,7 +99,7 @@ public class CallerController {
     	if(getFraudCaller(mobileNumber)!=null) {// First check with mobile number : Check for the existence of given mobile number in fraud database.
     		LOG.info("Caller : "+mobileNumber+" exists in fraud database. Not analyzing the call recording anymore.");
     		response.setFraud(true);
-    		response.setMessage("Fraudulent call detected !!");
+    		response.setMessage("Potential Fraud caller!! Please execute caution.");
     	}else { //Second check with call transcription : Convert call recording into transcription and check for fraud keywords.
     		String transcribedCallRecording = speechService.TranscribeCallRecording(file).toLowerCase();
         	LOG.debug("Voice call transcribed : "+transcribedCallRecording);
@@ -110,7 +110,7 @@ public class CallerController {
         			||transcribedCallRecording.contains("word")
         			||transcribedCallRecording.contains("code")) {
         		response.setFraud(true);
-        		response.setMessage("Fraudulent call Alert !!");        		
+        		response.setMessage("Potential Fraud caller!! Please review or report as spam");    		
         		LOG.info("Storing call recording from "+mobileNumber
         				+" for future reference as fraud is detected till end user confirms otherwise.");
         		String fileId=fileService.addFile(file);
