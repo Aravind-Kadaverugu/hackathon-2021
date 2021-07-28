@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vs00481543.phonecallrecorder.R;
@@ -37,15 +38,14 @@ public class SecondaryActivity extends AppCompatActivity {
     RecordAdapter rAdapter;
     RecyclerView recycler;
     List<CallDetails> callDetailsList;
+    private ImageView img;
     boolean checkResume=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secondary);
-
-
-
+        img = findViewById(R.id.default_image);
         SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(this);
         pref.edit().putInt("numOfCalls",0).apply();
 
@@ -115,6 +115,16 @@ public class SecondaryActivity extends AppCompatActivity {
     {
         recycler=(RecyclerView) findViewById(R.id.recyclerView);
         callDetailsList=new DatabaseManager(this).getAllDetails();
+        Log.d("detailslist", String.valueOf(callDetailsList.size()));
+        if(callDetailsList.size() == 0)
+        {
+            recycler.setVisibility(View.GONE);
+            img.setVisibility(View.VISIBLE);
+        }
+        else{
+            img.setVisibility(View.GONE);
+            recycler.setVisibility(View.VISIBLE);
+        }
 
         for(CallDetails cd:callDetailsList)
         {

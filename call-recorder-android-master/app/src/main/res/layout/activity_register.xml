@@ -50,17 +50,20 @@
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
-                    android:layout_width="389dp"
-                    android:layout_height="328dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/textInputName"
                         style="@style/parent"
-                        android:layout_marginTop="@dimen/loginViewsMargin">
+                        android:layout_marginTop="@dimen/loginViewsMargin"
+                        android:orientation="vertical">
 
                         <EditText
+                            android:layout_width="350dp"
+                            android:layout_height="match_parent"
                             android:id="@+id/editTextName"
                             style="@style/modifiedEditText"
                             android:hint="Name"
@@ -75,6 +78,8 @@
                         android:layout_marginTop="@dimen/loginViewsMargin">
 
                         <EditText
+                            android:layout_width="350dp"
+                            android:layout_height="match_parent"
                             android:id="@+id/editTextEmail"
                             style="@style/modifiedEditText"
                             android:hint="@string/login_email_hint"
@@ -89,6 +94,8 @@
                         android:layout_marginTop="@dimen/loginViewsMargin">
 
                         <EditText
+                            android:layout_width="350dp"
+                            android:layout_height="match_parent"
                             android:id="@+id/editTextMobile"
                             style="@style/modifiedEditText"
                             android:hint="Mobile Number"
@@ -103,6 +110,8 @@
                         android:layout_marginTop="@dimen/loginViewsMargin">
 
                         <EditText
+                            android:layout_width="350dp"
+                            android:layout_height="match_parent"
                             android:id="@+id/editTextPassword"
                             style="@style/modifiedEditText"
                             android:hint="@string/login_password_hint"
@@ -115,7 +124,7 @@
                         android:id="@+id/cirRegisterButton"
                         style="@style/loginButton"
                         android:onClick="onRegisterClick"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_gravity="center"
                         android:layout_marginTop="@dimen/loginViewsMargin"
                         android:background="@drawable/button_background_blue"
                         android:textColor="@color/black"
