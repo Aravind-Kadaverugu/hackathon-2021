@@ -30,7 +30,8 @@
                     android:layout_alignParentLeft="true"
                     android:textColor="@color/whiteTextColor"
                     android:layout_centerVertical="true"
-                    android:text="KnowUR\nCaller" />
+                    android:layout_marginRight="5dp"
+                    android:text="Know UR\nCaller" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="4dp"
                     android:layout_marginRight="0dp"
-                    android:src="@drawable/ic_voice_image" />
+                    android:src="@drawable/ic_iconvoice_img" />
 
             </RelativeLayout>
             <android.support.v7.widget.CardView
@@ -90,6 +91,9 @@
                 style="@style/loginButton"
                 android:onClick="onLoginClick"
                 android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_background_blue"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:text="Login"/>
 
@@ -99,7 +103,7 @@
                 android:onClick="onRegisterClick"
                 android:text="New User? Register Now"
                 android:textAlignment="center"
-                android:textColor="@color/themeColor"
+                android:textColor="@color/whiteTextColor"
                 android:textSize="22dp"
                 android:textStyle="bold"
                 android:gravity="center_horizontal" />
@@ -116,13 +120,13 @@
                     android:layout_height="1dp"
                     android:layout_weight="3"
                     android:background="@color/colorPrimaryDark"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Use other Methods"
-                    android:textSize="20dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"/>
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Use other Methods"-->
+<!--                    android:textSize="20dp"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="@color/whiteTextColor"/>-->
 
 
                 <View
@@ -144,12 +148,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_facebook"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_google_plus"/>
+                    android:src="@drawable/ic_ncrs_img"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -117,6 +117,8 @@
                         android:onClick="onRegisterClick"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/loginViewsMargin"
+                        android:background="@drawable/button_background_blue"
+                        android:textColor="@color/black"
                         android:text="Next" />
 
 
