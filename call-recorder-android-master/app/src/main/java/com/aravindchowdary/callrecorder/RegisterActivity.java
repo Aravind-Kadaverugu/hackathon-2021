@@ -15,7 +15,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
     }
-    public void onLoginClick(View view)
+    public void onRegisterClick(View view)
     {
         Intent intent = new Intent(this, MainActivity.class);
         EditText name = (EditText)findViewById(R.id.editTextName);
@@ -26,5 +26,10 @@ public class RegisterActivity extends AppCompatActivity {
         intent.putExtra("Email", email.getText().toString());
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
+    public void onLoginClick(View view)
+    {
+        startActivity(new Intent(this,LoginActivity.class));
+        overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
     }
 }

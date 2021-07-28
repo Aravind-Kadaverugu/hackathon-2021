@@ -114,7 +114,7 @@
                     <Button
                         android:id="@+id/cirRegisterButton"
                         style="@style/loginButton"
-                        android:onClick="onLoginClick"
+                        android:onClick="onRegisterClick"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/loginViewsMargin"
                         android:text="Next" />
