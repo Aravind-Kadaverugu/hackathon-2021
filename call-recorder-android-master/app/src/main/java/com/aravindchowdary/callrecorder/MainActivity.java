@@ -34,6 +34,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.Manifest.permission.ACCESS_NOTIFICATION_POLICY;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -166,12 +167,13 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
         //this method is used to check permission
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
-        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_NOTIFICATION_POLICY);
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED&& result2 == PackageManager.PERMISSION_GRANTED;
     }
 
     private void RequestPermissions() {
         // this method is used to request the permission for audio recording and storage.
-        ActivityCompat.requestPermissions(MainActivity.this, new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE}, REQUEST_AUDIO_PERMISSION_CODE);
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE,ACCESS_NOTIFICATION_POLICY}, REQUEST_AUDIO_PERMISSION_CODE);
     }
 
 
@@ -264,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
                         .addFormDataPart("emailAddress",emailAddress)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://192.168.0.7:9084/know-your-caller/create-user")
+                        .url("http://192.168.0.101:9084/know-your-caller/create-user")
                         .method("POST", body)
                         .build();
                 Response response = client.newCall(request).execute();

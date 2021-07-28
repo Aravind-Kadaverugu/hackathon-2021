@@ -104,7 +104,10 @@ public class CallerController {
         	LOG.debug("Voice call transcribed : "+transcribedCallRecording);
         	if(transcribedCallRecording.contains("pin")
         			||transcribedCallRecording.contains("otp")
-        			||transcribedCallRecording.contains("cvv")) {
+        			||transcribedCallRecording.contains("cvv")
+        			||transcribedCallRecording.contains("password")
+        			||transcribedCallRecording.contains("word")
+        			||transcribedCallRecording.contains("code")) {
         		response.setFraud(true);
         		response.setMessage("Looks like a fraudulent call!!");        		
         		LOG.info("Storing call recording from "+mobileNumber

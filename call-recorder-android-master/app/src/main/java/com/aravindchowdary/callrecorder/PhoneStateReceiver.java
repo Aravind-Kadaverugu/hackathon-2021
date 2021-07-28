@@ -10,16 +10,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by Aravind Chowdary on 01-07-2019.
@@ -70,8 +61,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                             context.startService(reivToServ);
 
 
-                            //int serialNumber = pref.getInt("serialNumData", 1);
-                            int serialNumber = 123456789;
+                            int serialNumber = pref.getInt("serialNumData", 1);
+                            //int serialNumber = 123456789;
                             new DatabaseManager(context).addCallDetails(new CallDetails(serialNumber, phoneNumber, new CommonMethods().getTIme(), new CommonMethods().getDate()));
 
                             List<CallDetails> list = new DatabaseManager(context).getAllDetails();
